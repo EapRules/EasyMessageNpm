@@ -87,17 +87,8 @@ self.addEventListener("notificationclick", function (event) {
 });
 ```
 
-
 ## How to use it?
 import useNotification from '@eaprules/easy-notification';
-
-```javascript
-useNotification(firebaseConfig: firebaseConfig, vapidKey: string): {
-    suscribe: () => Promise<string>;
-    unsuscribe: () => Promise<boolean>;
-    onMessageListener: () => Unsubscribe;
-}
-```
 
 #Input
 ```javascript
