@@ -1,37 +1,28 @@
 import { getToken, deleteToken, onMessage } from "firebase/messaging";
 import { credentialSetup } from "./config/firebase";
+import { firebaseConfig } from "./config/types";
 
-type FirebaseData = {
-  firebaseConfig: {},
-  vapidKey: string;
-};
-
-const useNotification = ({ firebaseConfig, vapidKey }: FirebaseData) => {
+const useNotification = (firebaseConfig: firebaseConfig, vapidKey: string) => {
   const { messaging } = credentialSetup(firebaseConfig);
 
   const suscribe = async () => {
     try {
       return await getToken(messaging, { vapidKey });
-    } catch (error) {
-      return console.log("An error occurred while retrieving token. ", error);
+    } catch (err) {
+      throw new Error(err)
     }
   };
 
   const unsuscribe = async () => {
     try {
       return await deleteToken(messaging);
-    } catch (error) {
-      return console.log("An error occurred while deleting the token. ", error);
+    } catch (err) {
+      throw new Error(err)
     }
   };
 
-  const onMessageListener = async () => {
-    try {
-      return await onMessage(messaging, (payload) => payload);
-    } catch (error) {
-      return console.log("An error occurred while retriving message. ", error);
-    }
-  };
+  const onMessageListener = () => onMessage(messaging, (payload) => payload);
+
 
   return {
     suscribe,
